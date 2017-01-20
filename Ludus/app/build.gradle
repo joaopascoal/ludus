@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.theorangeteam.ludus"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        dev {
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+
+        prod {
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
+        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        if (variant.buildType.name.equals('release')
+                && names.contains("dev")) {
+            setIgnore(true)
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:cardview-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.google.code.gson:gson:2.4'
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') { transitive = true }
+    compile 'com.google.dagger:dagger:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    // dev
+    devCompile 'org.mockito:mockito-core:1.10.19'
+    devCompile 'com.crittercism.dexmaker:dexmaker:1.4'
+    devCompile 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    devCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.1')
+            {
+                exclude module: 'hamcrest-core'
+                exclude module: 'hamcrest-integration'
+                exclude group: 'com.android.support', module: 'support-annotations'
+            }
+
+    testCompile('junit:junit:4.12')
+            {
+                exclude module: 'hamcrest-core'
+                exclude module: 'hamcrest-integration'
+            }
+}
