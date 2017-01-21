@@ -1,0 +1,22 @@
+package com.theorangeteam.ludus.android.activities
+
+import android.os.Bundle
+import android.widget.TextView
+
+import com.theorangeteam.ludus.R
+
+import butterknife.ButterKnife
+import butterknife.bindView
+
+class ShelfActivity : DrawerActivity() {
+
+    val hello: TextView by bindView(R.id.hello)
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.content_shelf)
+        ButterKnife.bind(this)
+        hello!!.text = "Inheritance intensifies"
+        this.setupDrawerLayout()
+    }
+}
