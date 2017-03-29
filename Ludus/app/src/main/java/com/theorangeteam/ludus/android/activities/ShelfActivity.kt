@@ -14,7 +14,7 @@ class ShelfActivity : DrawerActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.content_shelf)
+        setContentView(R.layout.drawer_activity_shelf)
         ButterKnife.bind(this)
         hello!!.text = "Inheritance intensifies"
         this.setupDrawerLayout()
